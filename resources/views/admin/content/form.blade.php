@@ -94,9 +94,7 @@
             remark: @json($remark ?? null),
             editor: null,
             editorData: @json($content  ?? null),
-            image_elements: null,
-            html_dom: null,
-            html_result: null,
+            htmlDOM: null,
         },
         methods: {
             submit: function () {
@@ -113,7 +111,6 @@
                     remark: this.remark,
                 };
 
-                console.log('editorData', this.editorData);
                 // return false;
                 axios.post(url, data)
                     .then(function(response) {
@@ -124,79 +121,70 @@
                         alert('保存失败');
                         console.log(error);
                     });
-                // window.location.href = '/admin/contents/create';
+                window.location.href = '/admin/contents/create';
             },
 
             query_list: async function () {
                 let that = this;
                 let url = '/api/query_list';
 
-                // 采集数据
-                await axios.post(url, {
-                    'article_link': this.article_link
-                })
-                .then((response) => {
-                    this.title = response.data.title;
-                    this.html_dom = response.data.content;
-                    this.editorData = response.data.content;
-                    this.editor.txt.html(response.data.content);
-                })
-                .catch(function(error) {
-                    alert(error);
-                    console.log(error);
-                });
+                async function queryData() {
+                    let resultData = null;
+                    // 采集数据，同步请求
+                    await axios.post(url, {
+                        'article_link': that.article_link
+                    })
+                    .then((response) => {
+                        that.title = response.data.title;
+                        that.htmlDOM = response.data.content;
+                        console.log('response', that.htmlDOM)
+                    })
+                    .catch(function(error) {
+                        alert(error);
+                        console.log(error);
+                    });
+                    return resultData;
+                }
+                await queryData();
+                // async function
+                async function replaceAsync(str, regex, asyncFn) {
+                    const promises = [];
+                    str.replace(regex, (match, ...args) => {
+                        const promise = asyncFn(match, ...args);
+                        promises.push(promise);
+                    });
+                    const data = await Promise.all(promises);
+                    return str.replace(regex, () => data.shift());
+                }
+                const image_regex = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
 
-                that.html_dom.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, function(match,capture){
-                    console.log('capture', capture)
-                    let image_link = null;
-                    let image_path = null;
-                    let result = null;
-                    result =  new Promise((resolve)=>{
-                         axios.post('/api/download/image', {
+                async function imageAsyncFn(match, capture) {
+                    async function result() {
+                        let image_path = null;
+                        let image_link = null;
+                        await axios.post('/api/download/image', {
                             'image_url': capture
                         })
                         .then(function(response) {
                             image_path = response.data.image_path;
                             image_link = '/storage/' + image_path;
-                            return resolve(image_link);
                         })
                         .catch(function(error) {
                             alert(error);
                         });
-                    })
-                    return result
-                });
-                // console.log('html_dom', that.html_dom);
-                this.image_elements
-                console.log('image_elements', this.image_elements);
-                console.log('image_elements', this.image_elements.length);
-                // for ($i = 0; $i < this.image_elements.length; $++) {
-                //     console.log('image_elements', this.image_elements[$i]);
-                // }
+                        console.log('image_link', image_link)
+                        match = match.replace(/src="[^"]+"/gi,`src="${image_link}"`);
+                        console.log('match', match)
+                        return match
+                    }
+                    return await result();
+                }
+                const replacedImage = await replaceAsync(that.htmlDOM, image_regex, imageAsyncFn)
 
-                Array.from(this.image_elements).map(function (dom) {
-                    console.log(dom)
-                })
-                // console.log()
+                replacedImage
+                console.log('replacedImage', replacedImage)
 
-                // async function upload(image_url) {
-                //     return new Promise((resolve)=>{
-                //         await axios.post('/api/download/image', {
-                //             'image_url': image_url
-                //         })
-                //             .then(function(response) {
-                //                 image_path = response.data.image_path;
-                //                 image_link = '/storage/' + image_path;
-                //                 return  image_link;
-                //                 // return  resolve(image_link);
-                //             })
-                //             .catch(function(error) {
-                //                 alert(error);
-                //             });
-                //     })
-                // }
-                // console.log('html_domaa', that.html_dom);
-                // that.editor.txt.html(that.html_dom);
+                that.editor.txt.html(replacedImage);
             }
         },
 
