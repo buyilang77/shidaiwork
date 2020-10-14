@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => '采编系统',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return [
 
         'image' => '/vendor/laravel-admin/AdminLTE/img/AdminLTELogo.png',
 
-        'text' => '<span class="font-weight-bolder">Laravel-admin</span>',
+        'text' => '<span class="font-weight-bolder">采编系统</span>',
     ],
 
     /*
@@ -75,7 +75,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'Admin',
+    'title' => '采编系统',
 
     /*
     |--------------------------------------------------------------------------

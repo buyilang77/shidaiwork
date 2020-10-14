@@ -37,30 +37,17 @@ class ContentController extends AdminController
         $table->column('created_at', __('创建时间'));
         $table->column('responsibleEditor.nickname', __('采编'));
         $table->column('textEditor.nickname', __('文编'));
-
+        $table->actions(function ($actions) {
+            // 去掉删除
+            $actions->disableDelete();
+            // 去掉查看
+            $actions->disableView();
+            // 双击列表页的某一行，跳转进入编辑页面，删除和查看操作对应`delete`、`view`
+            $actions->dblclick('edit');
+        });
+        // 去掉批量操作
+        $table->disableBatchActions();
         return $table;
-    }
-
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Content::findOrFail($id));
-
-        $show->field('id', __('Id'));
-        $show->field('text_editor_id', __('Text editor id'));
-        $show->field('responsible_editor_id', __('Responsible editor id'));
-        $show->field('title', __('Title'));
-        $show->field('content', __('Content'));
-        $show->field('article_link', __('Article link'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-
-        return $show;
     }
 
     /**
@@ -113,6 +100,7 @@ class ContentController extends AdminController
             'media',
         ]);
         $item = [
+            'id' => $article->id,
             'title' => $article->title,
             'article_link' => $article->article_link,
             'customer' => $article->customer,
