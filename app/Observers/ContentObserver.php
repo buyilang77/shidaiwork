@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Models\Content;
 use App\Models\Statistic;
+use Arr;
+use Log;
 
 class ContentObserver
 {
@@ -15,35 +17,12 @@ class ContentObserver
      */
     public function created(Content $content)
     {
-//        $request_date = request()->all();
-//
-//        $increment_field = null;
-//        $media_id = request()->media_id ?? null;
-//        if ($media_id) {
-//            if ($media_id === 1) {
-//                $increment_field = 'time';
-//            } elseif ($media_id === 2) {
-//                $increment_field = 'honor';
-//            } elseif ($media_id === 3) {
-//                $increment_field = 'government';
-//            } elseif ($media_id === 4) {
-//                $increment_field = 'headline';
-//            }
-//        }
+        $item = $this->handle();
 
-//        $statistic_item = [
-//            'text_editor_id' => $request_date['text_editor_id'],
-//            'responsible_editor_id' => $request_date['responsible_editor_id'],
-//        ];
-//
-//        $statistic = Statistic::where($statistic_item)->first();
-//        // update if it exists, otherwise create a new one
-//        if ($statistic instanceof Statistic) {
-//            $statistic->increment($increment_field);
-//        } else {
-//            $statistic_item[$increment_field] = 1;
-//            Statistic::create($statistic_item);
-//        }
+        $increment_field = $item['increment_field'];
+        $statistic_item = Arr::only($item, ['text_editor_id', 'responsible_editor_id']);
+
+        $content->statistic()->create(array_merge($statistic_item, [$increment_field => 1]));
     }
 
     /**
@@ -54,7 +33,51 @@ class ContentObserver
      */
     public function updated(Content $content)
     {
-        //
+        $item = $this->handle();
+
+        $statistic_item = Arr::only($item, ['text_editor_id', 'responsible_editor_id']);
+        $statistic_item['time'] = 0;
+        $statistic_item['honor'] = 0;
+        $statistic_item['headline'] = 0;
+        $statistic_item['government'] = 0;
+        $increment_field = $item['increment_field'] ?? null;
+        if ($increment_field) {
+            $statistic_item[$increment_field] = 1;
+        }
+
+        $content->statistic()->update($statistic_item);
+    }
+
+    /**
+     * Pre-processing
+     * @return array
+     */
+    public function handle()
+    {
+        $request_date = request()->all();
+        $increment_field = null;
+        $media_id = request()->media_id ?? null;
+
+        switch ($media_id) {
+            case Content::TIME;
+                $increment_field = 'time';
+                break;
+            case Content::HONOR;
+                $increment_field = 'honor';
+                break;
+            case Content::GOVERNMENT;
+                $increment_field = 'government';
+                break;
+            case Content::HEADLINE;
+                $increment_field = 'headline';
+                break;
+        }
+
+        return [
+            'increment_field' => $increment_field,
+            'text_editor_id' => $request_date['text_editor_id'],
+            'responsible_editor_id' => $request_date['responsible_editor_id'],
+        ];
     }
 
     /**
