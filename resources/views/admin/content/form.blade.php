@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('/vendor/wangEditor-3.1.1/release/wangEditor.min.css') }}">
+<link rel="stylesheet" href="/vendor/wangEditor/release/wangEditor.min.css">
 <div id="app">
         <div class="container-fluid">
 
@@ -154,19 +154,34 @@
                 }
                 const replacedImage = await replaceAsync(that.htmlDOM, image_regex, imageAsyncFn)
 
-                // replacedImage
-                // console.log('replacedImage', replacedImage)
+                let doc = new DOMParser().parseFromString(replacedImage, 'text/html');
 
-                let replaced_html = replacedImage
-                // 过滤无用标签
-                replaced_html = replaced_html.replace(/<(meta|script|link).+?>/igm, '');
-                // 去掉注释
-                replaced_html = replaced_html.replace(/<!--.*?-->/mg, '');
-                // 过滤 data-xxx 属性
-                replaced_html = replaced_html.replace(/\s?data-.+?=('|").+?('|")/igm, '');
-                replaced_html = replaced_html.replace(/\s?(class|style)=('|").*?('|")/igm, '');
+                let svg_dom = doc.body.getElementsByTagName("svg")
+                Array.from(svg_dom).forEach(function (dom) {
+                    let parent_node = dom.parentNode.parentNode.parentNode
+                    if (parent_node instanceof HTMLElement) {
+                        parent_node.innerHTML = ""
+                    }
+                })
 
-                console.log('pasteHtml',replaced_html)
+                let replaced_html = doc.body.innerHTML
+                replaced_html = formatHtml(replaced_html)
+                function formatHtml(html) {
+                    let pasteText = html
+                    // 去除br
+                    pasteText = pasteText.replace(/<br>|<br\/>/gim, '')
+                    // div 全部替换为 p 标签
+                    pasteText = pasteText.replace(/<div>/gim, '<p>').replace(/<\/div>/gim, '</p>')
+                    // 不允许空行，放在最后
+                    pasteText = pasteText.replace(/<p><\/p>/gim, '<p><br></p>')
+                    // 去掉注释
+                    pasteText = pasteText.replace(/<!--.*?-->/mg, '');
+                    // 过滤 data-xxx 属性
+                    pasteText = pasteText.replace(/\s?data-.+?=('|").+?('|")/igm, '');
+                    pasteText = pasteText.replace(/\s?(class|style)=('|").*?('|")/igm, '');
+                    // 去除''
+                    return pasteText.trim()
+                }
 
                 that.editor.txt.html(replaced_html);
             },
@@ -219,20 +234,7 @@
             editor.create();
             this.editor = editor;
             this.editor.txt.html(this.editorData);
-            let dom_section = editor.$textElem.elems[0].firstChild.firstChild
-            let section_attribute = dom_section.getAttribute('powered-by');
-
-            if (section_attribute === 'xiumi.us') {
-                dom_section.remove()
-            }
         },
-
-        updated() {
-            this.$nextTick(() => {
-                // this.editorData = document.getElementById('content').getElementsByClassName('w-e-text')[0].innerHTML;
-                // console.log('updated this.editorData', this.editorData)
-            })
-        }
     });
 </script>
 
