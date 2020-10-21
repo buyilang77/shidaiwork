@@ -5,10 +5,16 @@ namespace App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Content extends Model
 {
     use HasFactory;
+
+    public const TIME = 1;
+    public const HONOR = 2;
+    public const GOVERNMENT = 3;
+    public const HEADLINE = 4;
 
     protected $fillable = ['title', 'content', 'article_link'];
 
@@ -34,6 +40,14 @@ class Content extends Model
     public function responsibleEditor()
     {
         return $this->belongsTo(ResponsibleEditor::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function statistic(): HasOne
+    {
+        return $this->hasOne(Statistic::class);
     }
 
     /**
