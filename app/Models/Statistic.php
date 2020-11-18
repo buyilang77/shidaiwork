@@ -11,8 +11,7 @@ class Statistic extends Model
     use HasFactory;
 
     protected $fillable = [
-        'text_editor_id',
-        'responsible_editor_id',
+        'user_id',
         'time',
         'honor',
         'government',
@@ -24,7 +23,7 @@ class Statistic extends Model
      */
     public function media()
     {
-        return $this->belongsTo(Media::class);
+        return $this->belongsTo(Medium::class);
     }
 
     /**

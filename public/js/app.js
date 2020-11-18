@@ -226,7 +226,7 @@ module.exports = function xhrAdapter(config) {
     if ('setRequestHeader' in request) {
       utils.forEach(requestHeaders, function setRequestHeader(val, key) {
         if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
+          // Remove Manuscript-Type if data is undefined
           delete requestHeaders[key];
         } else {
           // Otherwise add header to the request
@@ -1465,7 +1465,7 @@ var ignoreDuplicateOf = [
  *
  * ```
  * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
+ * Manuscript-Type: application/json
  * Connection: keep-alive
  * Transfer-Encoding: chunked
  * ```
@@ -28770,7 +28770,7 @@ var canBeLeftOpenTag = makeMap(
 );
 
 // HTML5 tags https://html.spec.whatwg.org/multipage/indices.html#elements-3
-// Phrasing Content https://html.spec.whatwg.org/multipage/dom.html#phrasing-content
+// Phrasing Manuscript https://html.spec.whatwg.org/multipage/dom.html#phrasing-content
 var isNonPhrasingTag = makeMap(
   'address,article,aside,base,blockquote,body,caption,col,colgroup,dd,' +
   'details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form,' +
@@ -31212,7 +31212,7 @@ function createCompileToFunctionFn (compile) {
         if (e.toString().match(/unsafe-eval|CSP/)) {
           warn$$1(
             'It seems you are using the standalone build of Vue.js in an ' +
-            'environment with Content Security Policy that prohibits unsafe-eval. ' +
+            'environment with Manuscript Security Policy that prohibits unsafe-eval. ' +
             'The template compiler cannot work in this environment. Consider ' +
             'relaxing the policy to allow unsafe-eval or pre-compiling your ' +
             'templates into render functions.'

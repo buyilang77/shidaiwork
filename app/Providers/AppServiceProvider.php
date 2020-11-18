@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Content;
+use App\Models\Manuscript;
 use App\Models\Statistic;
-use App\Observers\ContentObserver;
+use App\Observers\ManuscriptObserver;
 use App\Observers\StatisticObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Content::observe(ContentObserver::class);
+        Manuscript::observe(ManuscriptObserver::class);
 //        Statistic::observe(StatisticObserver::class);
     }
 }
