@@ -24,7 +24,7 @@ class AuthorizationRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|between:6,25|regex:/^[A-Za-z0-9\-\_]+$/',
+            'username' => 'required|between:5,25|regex:/^[A-Za-z0-9\-\_]+$/',
             'password' => 'required|alpha_dash|min:5',
         ];
     }

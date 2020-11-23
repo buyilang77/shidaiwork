@@ -22,11 +22,20 @@ class WorkflowManuscript extends BaseModel
     }
 
     /**
-     * Workflow of the text editor.
+     * Workflow of the Writing editor.
      * @return BelongsTo
      */
     public function workflowWritingEditor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'writing_editor_id');
+    }
+
+    /**
+     * Reviewer.
+     * @return BelongsTo
+     */
+    public function workflowReviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewer_id');
     }
 }

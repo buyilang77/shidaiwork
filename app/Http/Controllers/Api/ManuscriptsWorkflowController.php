@@ -21,15 +21,13 @@ class ManuscriptsWorkflowController extends Controller
     public function update(Request $request, Manuscript $manuscript): JsonResponse
     {
         $data = $request->validate(['status' => 'required|integer']);
+        $user_id = $this->user()->id;
         switch ($this->user()->type) {
             case User::TEXT_EDITOR:
-                $data['text_editor_id'] = auth()->id();
+                $data['text_editor_id'] = $user_id;
                 break;
             case User::WRITING_EDITOR:
-                $data['writing_editor_id'] = auth()->id();
-                break;
-            case User::ADVANCED_EDITOR:
-                $data['advanced_editor_id'] = auth()->id();
+                $data['writing_editor_id'] = $user_id;
                 break;
         }
         $manuscript->workflow()->update($data);
@@ -47,6 +45,7 @@ class ManuscriptsWorkflowController extends Controller
         $status = (int)$data['status'];
         $workflow = $manuscript->workflow;
         $workflow->status = $status;
+        $workflow->reviewer_id = $this->user()->id;
         if ($status === WorkflowManuscript::STATUS_SUCCESS) {
             if ($workflow->getOriginal('status') === WorkflowManuscript::STATUS_REVIEW) {
                 $media_db = $this->getMediaDatabase($data['media_id']);

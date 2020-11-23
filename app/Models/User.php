@@ -17,8 +17,6 @@ class User extends Authenticatable implements JWTSubject
     public const TEXT_EDITOR = 1;
     // 文编
     public const WRITING_EDITOR = 2;
-    // 高级文编
-    public const ADVANCED_EDITOR = 3;
 
     /**
      * The attributes that are mass assignable.

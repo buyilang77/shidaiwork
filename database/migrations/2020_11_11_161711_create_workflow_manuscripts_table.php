@@ -18,7 +18,7 @@ class CreateWorkflowManuscriptsTable extends Migration
             $table->bigInteger('manuscript_id')->index();
             $table->bigInteger('text_editor_id')->default(0)->comment('采编')->index();
             $table->bigInteger('writing_editor_id')->default(0)->comment('文编')->index();
-            $table->bigInteger('advanced_editor_id')->default(0)->comment('高级文编')->index();
+            $table->bigInteger('reviewer_id')->default(0)->comment('审核人')->index();
             $table->tinyInteger('status')->default(0)
                 ->comment('稿件状态 0: 待处理, 1: 处理中, 2: 审核中, 3: 未通过, 4: 已完成')->index();
             $table->timestamps();

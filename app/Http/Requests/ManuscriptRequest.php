@@ -27,7 +27,7 @@ class ManuscriptRequest extends FormRequest
             'media_id'     => 'required|integer',
             'title'        => 'required|string',
             'content'      => 'string|nullable',
-            'article_link' => 'required|url',
+            'article_link' => 'url|nullable',
             'customer'     => 'string|nullable',
             'file_list'    => 'array|nullable',
             'remark'       => 'string|nullable',

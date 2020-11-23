@@ -15,7 +15,8 @@ class UploadController extends Controller
 
     public function file(Request $request)
     {
-        $image_path = $request->file('file')->store('public/file');
+        $date = now()->toDateString();
+        $image_path = $request->file('file')->store('public/file/' . $date);
         return custom_response(['file_path' => $image_path]);
     }
 }

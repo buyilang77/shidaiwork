@@ -20,6 +20,7 @@ class ManuscriptResource extends JsonResource
             'media_name'     => $this->resource->media->name,
             'text_editor'    => $this->resource->workflow->workflowTextEditor->name,
             'writing_editor' => $this->resource->workflow->workflowWritingEditor->name ?? null,
+            'reviewer'       => $this->resource->workflow->workflowReviewer->name ?? null,
             'title'          => $this->resource->title,
             'content'        => $this->resource->content,
             'article_link'   => $this->resource->article,
