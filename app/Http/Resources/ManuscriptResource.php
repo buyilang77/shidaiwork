@@ -28,7 +28,7 @@ class ManuscriptResource extends JsonResource
             'file_list'      => $this->resource->file_list,
             'remark'         => $this->resource->remark,
             'status'         => $this->resource->workflow->status,
-            'created_at'     => $this->resource->created_at->toDateString(),
+            'created_at'     => $this->resource->created_at->toDateTimeString(),
         ];
     }
 }

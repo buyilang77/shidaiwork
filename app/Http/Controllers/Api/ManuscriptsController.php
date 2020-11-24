@@ -8,7 +8,6 @@ use App\Http\Resources\ManuscriptResource;
 use App\Models\Manuscript;
 use App\Models\WorkflowManuscript;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -20,7 +19,12 @@ class ManuscriptsController extends Controller
     public function index(): JsonResponse
     {
         $item = QueryBuilder::for(Manuscript::class)
-            ->allowedFilters(['title', AllowedFilter::exact('workflow.status')])
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('workflow.status'),
+                AllowedFilter::exact('workflow.writing_editor_id'),
+                AllowedFilter::exact('workflow.text_editor_id'),
+            ])
             ->orderByDesc('id')
             ->paginate($this->perPage);
         return custom_response(ManuscriptResource::collection($item)->response()->getData());
@@ -62,5 +66,16 @@ class ManuscriptsController extends Controller
     public function show(Manuscript $manuscript): JsonResponse
     {
         return custom_response($manuscript);
+    }
+
+    /**
+     * @param Manuscript $manuscript
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(Manuscript $manuscript): JsonResponse
+    {
+        $manuscript->delete();
+        return custom_response()->setStatusCode(204);
     }
 }

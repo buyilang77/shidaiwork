@@ -12,12 +12,12 @@ class ManuscriptObserver
     /**
      * Handle the content "created" event.
      *
-     * @param \App\Models\Manuscript $content
+     * @param \App\Models\Manuscript $manuscript
      * @return void
      */
-    public function created(Manuscript $content)
+    public function created(Manuscript $manuscript)
     {
-        $field = $this->handle($content->media_id);
+        $field = $this->handle($manuscript->media_id);
 
         $statistic = Statistic::whereDate('created_at', now()->toDateString())->first();
         if ($statistic instanceof Statistic) {
@@ -60,11 +60,13 @@ class ManuscriptObserver
     /**
      * Handle the content "deleted" event.
      *
-     * @param \App\Models\Manuscript $content
+     * @param \App\Models\Manuscript $manuscript
      * @return void
      */
-    public function deleted(Manuscript $content)
+    public function deleted(Manuscript $manuscript)
     {
-        //
+        $field = $this->handle($manuscript->media_id);
+        $statistic = auth()->user()->statistic()->whereDate('created_at', now()->toDateString())->first();
+        $statistic->decrement($field);
     }
 }

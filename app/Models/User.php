@@ -90,4 +90,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(WorkflowManuscript::class, 'writing_editor_id');
     }
+
+    /**
+     * Statistics.
+     * @return HasMany
+     */
+    public function statistic(): HasMany
+    {
+        return $this->hasMany(Statistic::class);
+    }
 }

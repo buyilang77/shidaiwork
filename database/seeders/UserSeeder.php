@@ -82,7 +82,7 @@ class UserSeeder extends Seeder
                 'username' => 'liujia',
                 'name'     => '刘佳',
                 'type'     => 2,
-                'roles'    => "[4]",
+                'roles'    => "[4, 5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
