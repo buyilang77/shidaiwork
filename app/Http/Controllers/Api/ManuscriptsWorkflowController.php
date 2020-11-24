@@ -54,7 +54,7 @@ class ManuscriptsWorkflowController extends Controller
                     'InfoContent' => $data['content'],
                     'InfoTitle'   => $data['title'],
                     'InfoTime'    => now()->toDateTimeString(),
-                    'InfoPicture' => $data['thumbnail'],
+                    'InfoPicture' => $data['thumbnail'] ?? null,
                     'IsCheck'     => 1,
                 ];
                 DB::connection($media_db)->table('info')->insert($item);
