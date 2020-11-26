@@ -22,6 +22,7 @@ class ManuscriptsController extends Controller
             ->allowedFilters([
                 'title',
                 AllowedFilter::exact('workflow.status'),
+                AllowedFilter::exact('workflow.reviewer_id'),
                 AllowedFilter::exact('workflow.writing_editor_id'),
                 AllowedFilter::exact('workflow.text_editor_id'),
             ])
