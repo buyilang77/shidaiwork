@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->json('roles');
             $table->tinyInteger('type')->default(0)
-                ->comment('类型 1: 采编, 2: 文编, 4: 行政, 5: 总编');
+                ->comment('类型 1: 采编, 2: 文编, 3: 高级文编, 4: 行政, 5: 总编');
             $table->rememberToken();
             $table->timestamps();
         });

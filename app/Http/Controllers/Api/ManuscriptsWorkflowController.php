@@ -46,9 +46,9 @@ class ManuscriptsWorkflowController extends Controller
         $workflow = $manuscript->workflow;
         $workflow->status = $status;
         $workflow->reviewer_id = $this->user()->id;
-        if ($status === WorkflowManuscript::STATUS_SUCCESS) {
-            if ($workflow->getOriginal('status') === WorkflowManuscript::STATUS_REVIEW) {
-                $media_db = $this->getMediaDatabase($data['media_id']);
+        if ($status === WorkflowManuscript::STATUS_SUCCESS && $workflow->getOriginal('status') === WorkflowManuscript::STATUS_REVIEW) {
+            $media_db = $this->getMediaDatabase($data['media_id']);
+            if ($media_db) {
                 $item = [
                     'ChannelID'   => $data['channel_id'],
                     'InfoContent' => $data['content'],
@@ -88,7 +88,7 @@ class ManuscriptsWorkflowController extends Controller
      * @param int $media_id
      * @return string
      */
-    private function getMediaDatabase(int $media_id): string
+    private function getMediaDatabase(int $media_id): ?string
     {
         $channel = null;
         switch ($media_id) {
