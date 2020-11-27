@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ManuscriptStatistics;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManuscriptRequest;
 use App\Models\Manuscript;
@@ -22,7 +23,8 @@ class ManuscriptsWorkflowController extends Controller
     {
         $data = $request->validate(['status' => 'required|integer']);
         $user_id = $this->user()->id;
-        switch ($this->user()->type) {
+        $user_type = $this->user()->type;
+        switch ($user_type) {
             case User::TEXT_EDITOR:
                 $data['text_editor_id'] = $user_id;
                 break;
@@ -31,6 +33,7 @@ class ManuscriptsWorkflowController extends Controller
                 break;
         }
         $manuscript->workflow()->update($data);
+        event(new ManuscriptStatistics($manuscript));
         return custom_response(null, 103);
     }
 
@@ -46,7 +49,7 @@ class ManuscriptsWorkflowController extends Controller
         $workflow = $manuscript->workflow;
         $workflow->status = $status;
         $workflow->reviewer_id = $this->user()->id;
-        if ($status === WorkflowManuscript::STATUS_SUCCESS && $workflow->getOriginal('status') === WorkflowManuscript::STATUS_REVIEW) {
+        if ($status === WorkflowManuscript::STATUS_SUCCESS) {
             $media_db = $this->getMediaDatabase($data['media_id']);
             if ($media_db) {
                 $item = [
@@ -58,6 +61,9 @@ class ManuscriptsWorkflowController extends Controller
                     'IsCheck'     => 1,
                 ];
                 DB::connection($media_db)->table('info')->insert($item);
+            }
+            if ($workflow->getOriginal('status') === WorkflowManuscript::STATUS_REVIEW) {
+                event(new ManuscriptStatistics($manuscript));
             }
         }
         $workflow->save();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ManuscriptStatistics;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManuscriptRequest;
 use App\Http\Resources\ManuscriptResource;
@@ -41,6 +42,7 @@ class ManuscriptsController extends Controller
         unset($data['is_review']);
         $manuscript = Manuscript::create($data);
         $this->user()->workflowTextEditor()->create(['manuscript_id' => $manuscript->getKey()]);
+        event(new ManuscriptStatistics($manuscript));
         return custom_response(null, 101)->setStatusCode(201);
     }
 
@@ -66,7 +68,7 @@ class ManuscriptsController extends Controller
      */
     public function show(Manuscript $manuscript): JsonResponse
     {
-        return custom_response($manuscript);
+        return custom_response($manuscript->load(['workflow:manuscript_id,status']));
     }
 
     /**
