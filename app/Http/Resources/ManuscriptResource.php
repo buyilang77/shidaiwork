@@ -15,20 +15,25 @@ class ManuscriptResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'             => $this->resource->id,
-            'media_id'       => $this->resource->media_id,
-            'media_name'     => $this->resource->media->name,
-            'text_editor'    => $this->resource->workflow->workflowTextEditor->name,
-            'writing_editor' => $this->resource->workflow->workflowWritingEditor->name ?? null,
-            'reviewer'       => $this->resource->workflow->workflowReviewer->name ?? null,
-            'title'          => $this->resource->title,
-            'content'        => $this->resource->content,
-            'article_link'   => $this->resource->article,
-            'customer'       => $this->resource->customer,
-            'file_list'      => $this->resource->file_list,
-            'remark'         => $this->resource->remark,
-            'status'         => $this->resource->workflow->status,
-            'created_at'     => $this->resource->created_at->toDateTimeString(),
+            'id'           => $this->resource->id,
+            'media'        => [
+                'id'   => $this->resource->media->id,
+                'name' => $this->resource->media->name,
+            ],
+            'workflow'     => [
+                'text_editor'    => $this->resource->workflow->workflowTextEditor->name,
+                'writing_editor' => $this->resource->workflow->workflowWritingEditor->name ?? null,
+                'reviewer'       => $this->resource->workflow->workflowReviewer->name ?? null,
+            ],
+            'title'        => $this->resource->title,
+            'content'      => $this->resource->content,
+            'channel_id'   => $this->resource->channel_id,
+            'article_link' => $this->resource->article,
+            'customer'     => $this->resource->customer,
+            'file_list'    => $this->resource->file_list,
+            'remark'       => $this->resource->remark,
+            'status'       => $this->resource->workflow->status,
+            'created_at'   => $this->resource->created_at->toDateTimeString(),
         ];
     }
 }

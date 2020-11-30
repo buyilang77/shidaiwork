@@ -20,6 +20,7 @@ class ManuscriptsController extends Controller
     public function index(): JsonResponse
     {
         $item = QueryBuilder::for(Manuscript::class)
+            ->with('workflow')
             ->allowedFilters([
                 'title',
                 AllowedFilter::exact('workflow.status'),
@@ -58,6 +59,8 @@ class ManuscriptsController extends Controller
             $manuscript->workflow()->update(['status' => WorkflowManuscript::STATUS_REVIEW]);
         }
         unset($data['is_review']);
+        unset($data['status']);
+
         $manuscript->update($data);
         return custom_response(null, 103);
     }
@@ -68,7 +71,8 @@ class ManuscriptsController extends Controller
      */
     public function show(Manuscript $manuscript): JsonResponse
     {
-        return custom_response($manuscript->load(['workflow:manuscript_id,status']));
+        return custom_response(ManuscriptResource::make($manuscript));
+//        return custom_response($manuscript->load(['workflow:manuscript_id,status']));
     }
 
     /**
