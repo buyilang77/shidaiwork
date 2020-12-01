@@ -91,6 +91,23 @@ class ManuscriptsWorkflowController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function members(Request $request): JsonResponse
+    {
+        $data = $request->validate(['media_id' => 'required|integer']);
+
+        $condition['IsSystem'] = 0;
+        $media_db = $this->getMediaDatabase($data['media_id']);
+        if (!$media_db) {
+            return custom_response();
+        }
+        $item = DB::connection($media_db)->table('member')->where($condition)->get(['MemberID', 'MemberName']);
+        return custom_response($item);
+    }
+
+    /**
      * @param int $media_id
      * @return string
      */
@@ -112,11 +129,10 @@ class ManuscriptsWorkflowController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param Manuscript $manuscript
      * @return JsonResponse
      */
-    public function cancellation(Request $request, Manuscript $manuscript): JsonResponse
+    public function cancellation(Manuscript $manuscript): JsonResponse
     {
         $manuscript->workflow()->update(['status' => WorkflowManuscript::STATUS_INIT]);
         return custom_response(null, 103);

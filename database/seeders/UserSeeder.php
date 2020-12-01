@@ -16,10 +16,10 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'username' => 'zhangjinxia',
-                'name'     => '张金侠',
-                'type'     => 1,
-                'roles'    => "[3]",
+                'username' => 'admin',
+                'name'     => 'Administrator',
+                'type'     => 0,
+                'roles'    => "[1]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
@@ -75,21 +75,21 @@ class UserSeeder extends Seeder
                 'username' => 'zhangwen',
                 'name'     => '张文',
                 'type'     => 2,
-                'roles'    => "[4, 5]",
+                'roles'    => "[5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
                 'username' => 'liujia',
                 'name'     => '刘佳',
                 'type'     => 2,
-                'roles'    => "[4, 5]",
+                'roles'    => "[5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
                 'username' => 'wangling',
                 'name'     => '王玲',
                 'type'     => 2,
-                'roles'    => "[4]",
+                'roles'    => "[4, 5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
@@ -103,7 +103,7 @@ class UserSeeder extends Seeder
                 'username' => 'wuming',
                 'name'     => '武明',
                 'type'     => 2,
-                'roles'    => "[4]",
+                'roles'    => "[4, 5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
@@ -111,6 +111,13 @@ class UserSeeder extends Seeder
                 'name'     => '蔺小龙',
                 'type'     => 5,
                 'roles'    => "[2]",
+                'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
+            ],
+            [
+                'username' => 'zhangjinxia',
+                'name'     => '张金侠',
+                'type'     => 1,
+                'roles'    => "[3]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
         ]);

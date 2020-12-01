@@ -26,6 +26,8 @@ class ManuscriptResource extends JsonResource
             'title'        => $this->resource->title,
             'content'      => $this->resource->content,
             'channel_id'   => $this->resource->channel_id,
+            'member_id'    => $this->resource->member_id,
+            'source'       => $this->resource->source,
             'article_link' => $this->resource->article,
             'customer'     => $this->resource->customer,
             'file_list'    => $this->resource->file_list,

@@ -16,7 +16,8 @@ class CreateManuscriptsTable extends Migration
         Schema::create('manuscripts', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('media_id')->index();
-            $table->integer('channel_id')->default(0)->index();
+            $table->integer('channel_id')->default(0);
+            $table->integer('member_id')->default(0);
             $table->string('title')->nullable()->index();
             $table->text('content')->nullable();
             $table->string('article_link')->nullable();
@@ -24,6 +25,7 @@ class CreateManuscriptsTable extends Migration
             $table->string('customer')->nullable()->index();
             $table->json('file_list')->nullable();
             $table->string('remark')->nullable();
+            $table->string('source')->nullable();
             $table->timestamps();
         });
     }

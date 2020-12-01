@@ -31,6 +31,8 @@ class ManuscriptRequest extends FormRequest
             'customer'     => 'string|nullable',
             'file_list'    => 'array|nullable',
             'remark'       => 'string|nullable',
+            'source'       => 'string|nullable',
+            'member_id'    => 'integer|nullable',
             'channel_id'   => 'integer|nullable',
             'is_review'    => 'boolean',
             'thumbnail'    => 'string|nullable',
