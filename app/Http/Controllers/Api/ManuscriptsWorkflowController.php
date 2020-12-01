@@ -44,6 +44,7 @@ class ManuscriptsWorkflowController extends Controller
      */
     public function review(ManuscriptRequest $request, Manuscript $manuscript): JsonResponse
     {
+
         $data = $request->validated();
         $status = (int)$data['status'];
         $workflow = $manuscript->workflow;
@@ -58,7 +59,9 @@ class ManuscriptsWorkflowController extends Controller
                     'InfoTitle'   => $data['title'],
                     'InfoTime'    => now()->toDateTimeString(),
                     'InfoPicture' => $data['thumbnail'] ?? null,
-                    'IsCheck'     => 1,
+                    'MemberID'    => 1,
+                    'InfoFrom'    => $data['source'],
+                    'f1'          => $workflow->workflowTextEditor->name,
                 ];
                 DB::connection($media_db)->table('info')->insert($item);
             }
@@ -87,23 +90,6 @@ class ManuscriptsWorkflowController extends Controller
             return custom_response();
         }
         $item = DB::connection($media_db)->table('channel')->where($condition)->get(['ChannelID', 'ChannelName']);
-        return custom_response($item);
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function members(Request $request): JsonResponse
-    {
-        $data = $request->validate(['media_id' => 'required|integer']);
-
-        $condition['IsSystem'] = 0;
-        $media_db = $this->getMediaDatabase($data['media_id']);
-        if (!$media_db) {
-            return custom_response();
-        }
-        $item = DB::connection($media_db)->table('member')->where($condition)->get(['MemberID', 'MemberName']);
         return custom_response($item);
     }
 
