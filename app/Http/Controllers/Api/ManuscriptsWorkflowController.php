@@ -110,4 +110,15 @@ class ManuscriptsWorkflowController extends Controller
         }
         return $channel;
     }
+
+    /**
+     * @param Request $request
+     * @param Manuscript $manuscript
+     * @return JsonResponse
+     */
+    public function cancellation(Request $request, Manuscript $manuscript): JsonResponse
+    {
+        $manuscript->workflow()->update(['status' => WorkflowManuscript::STATUS_INIT]);
+        return custom_response(null, 103);
+    }
 }

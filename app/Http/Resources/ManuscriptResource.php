@@ -16,10 +16,8 @@ class ManuscriptResource extends JsonResource
     {
         return [
             'id'           => $this->resource->id,
-            'media'        => [
-                'id'   => $this->resource->media->id,
-                'name' => $this->resource->media->name,
-            ],
+            'media_id'     => $this->resource->media_id,
+            'media_name'   => $this->resource->media->name,
             'workflow'     => [
                 'text_editor'    => $this->resource->workflow->workflowTextEditor->name,
                 'writing_editor' => $this->resource->workflow->workflowWritingEditor->name ?? null,

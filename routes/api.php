@@ -42,5 +42,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('manuscripts', ManuscriptsController::class);
     Route::patch('manuscripts-workflow/{manuscript}', [ManuscriptsWorkflowController::class, 'update']);
     Route::patch('manuscripts-workflow/reviews/{manuscript}', [ManuscriptsWorkflowController::class, 'review']);
+    Route::patch('manuscripts-workflow/cancellation/{manuscript}', [ManuscriptsWorkflowController::class, 'cancellation']);
     Route::get('manuscripts-workflow/reviews/channels', [ManuscriptsWorkflowController::class, 'channel']);
 });

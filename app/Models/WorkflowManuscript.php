@@ -9,6 +9,7 @@ class WorkflowManuscript extends BaseModel
 {
     use HasFactory;
 
+    public const STATUS_INIT = 0;
     public const STATUS_REVIEW = 2;
     public const STATUS_SUCCESS = 4;
 
