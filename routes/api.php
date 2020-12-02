@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\QueryListController;
 use App\Http\Controllers\Api\AuthorizationsController;
 use App\Http\Controllers\Api\RolesController;
+use App\Http\Controllers\Api\StatisticsController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ManuscriptsWorkflowController;
@@ -32,6 +33,7 @@ Route::delete('authorizations/current', [AuthorizationsController::class, 'destr
     ->name('authorizations.destroy');
 Route::middleware('auth:api')->group(function () {
     Route::get('user', [UsersController::class, 'mine'])->name('user.show');
+    Route::get('statistics', [StatisticsController::class, 'index'])->name('statistics');
     Route::resource('media', MediaController::class);
     Route::resource('roles', RolesController::class);
     Route::get('articles', [QueryListController::class, 'query']);
