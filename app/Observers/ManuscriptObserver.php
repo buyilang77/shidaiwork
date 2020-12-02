@@ -2,11 +2,8 @@
 
 namespace App\Observers;
 
-use App\Events\ManuscriptStatistics;
 use App\Models\Manuscript;
 use App\Models\Statistic;
-use Arr;
-use Log;
 
 class ManuscriptObserver
 {
@@ -19,25 +16,10 @@ class ManuscriptObserver
      */
     public function deleted(Manuscript $manuscript)
     {
-        $field = $this->handle($manuscript->media_id);
-        $statistic = auth()->user()->statistic()->whereDate('created_at', now()->toDateString())->first();
-        $statistic->decrement($field);
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param $media_id
-     * @return void
-     */
-    public function handle($media_id)
-    {
-        $media = $this->getMedia($media_id);
+        $media = $this->getMedia($manuscript->media_id);
         $statistic = auth()->user()->statistic()->whereDate('created_at', now()->toDateString())->first();
         if ($statistic instanceof Statistic) {
-            $statistic->increment($media);
-        } else {
-            auth()->user()->statistic()->create([$media => 1]);
+            $statistic->decrement($media);
         }
     }
 

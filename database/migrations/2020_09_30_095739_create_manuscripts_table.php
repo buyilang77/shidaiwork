@@ -19,7 +19,7 @@ class CreateManuscriptsTable extends Migration
             $table->integer('channel_id')->default(0);
             $table->integer('member_id')->default(0);
             $table->string('title')->nullable()->index();
-            $table->text('content')->nullable();
+            $table->mediumText('content')->nullable();
             $table->string('article_link')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('customer')->nullable()->index();
