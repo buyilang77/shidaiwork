@@ -57,6 +57,7 @@ class ManuscriptsController extends Controller
     public function update(ManuscriptRequest $request, Manuscript $manuscript): JsonResponse
     {
         $data = $request->validated();
+        unset($data['status']);
         $manuscript->update($data);
         return custom_response(null, 103);
     }
