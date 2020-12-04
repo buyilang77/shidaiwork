@@ -33,7 +33,6 @@ class ManuscriptRequest extends FormRequest
             'remark'       => 'string|nullable',
             'source'       => 'string|nullable',
             'channel_id'   => 'integer|nullable',
-            'is_review'    => 'boolean',
             'thumbnail'    => 'string|nullable',
             'status'       => 'integer|nullable',
         ];

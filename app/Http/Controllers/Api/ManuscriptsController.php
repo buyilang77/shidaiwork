@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ManuscriptRequest;
 use App\Http\Resources\ManuscriptResource;
 use App\Models\Manuscript;
+use App\Models\Statistic;
+use App\Models\User;
 use App\Models\WorkflowManuscript;
 use Illuminate\Http\JsonResponse;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -55,12 +57,6 @@ class ManuscriptsController extends Controller
     public function update(ManuscriptRequest $request, Manuscript $manuscript): JsonResponse
     {
         $data = $request->validated();
-        if ($data['is_review']) {
-            $manuscript->workflow()->update(['status' => WorkflowManuscript::STATUS_REVIEW]);
-        }
-        unset($data['is_review']);
-        unset($data['status']);
-
         $manuscript->update($data);
         return custom_response(null, 103);
     }
@@ -72,7 +68,6 @@ class ManuscriptsController extends Controller
     public function show(Manuscript $manuscript): JsonResponse
     {
         return custom_response(ManuscriptResource::make($manuscript));
-//        return custom_response($manuscript->load(['workflow:manuscript_id,status']));
     }
 
     /**

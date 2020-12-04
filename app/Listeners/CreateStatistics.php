@@ -18,7 +18,10 @@ class CreateStatistics implements ShouldQueue
     public function handle(ManuscriptStatistics $event)
     {
         $media = $this->getMedia($event->manuscript->media_id);
-        auth()->user()->statistic()->create([$media => 1]);
+        $statistic = new Statistic([$media => 1]);
+        $statistic->user()->associate(auth()->user());
+        $statistic->manuscript()->associate($event->manuscript);
+        $statistic->save();
     }
 
     /**

@@ -11,7 +11,10 @@ class ManuscriptStatistics
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $manuscript;
+    /**
+     * @var Manuscript $manuscript
+     */
+    public Manuscript $manuscript;
 
     /**
      * Create a new event instance.

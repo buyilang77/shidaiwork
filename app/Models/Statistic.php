@@ -32,4 +32,12 @@ class Statistic extends BaseModel
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function manuscript(): BelongsTo
+    {
+        return $this->belongsTo(Manuscript::class);
+    }
 }

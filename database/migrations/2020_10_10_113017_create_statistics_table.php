@@ -16,6 +16,7 @@ class CreateStatisticsTable extends Migration
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->index();
+            $table->bigInteger('manuscript_id')->index();
             $table->integer('time')->default(0);
             $table->integer('honor')->default(0);
             $table->integer('government')->default(0);
