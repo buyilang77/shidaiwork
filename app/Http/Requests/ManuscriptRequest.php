@@ -24,17 +24,18 @@ class ManuscriptRequest extends FormRequest
     public function rules()
     {
         return [
-            'media_id'     => 'required|integer',
-            'title'        => 'required|string',
-            'content'      => 'string|nullable',
-            'article_link' => 'url|nullable',
-            'customer'     => 'string|nullable',
-            'file_list'    => 'array|nullable',
-            'remark'       => 'string|nullable',
-            'source'       => 'string|nullable',
-            'channel_id'   => 'integer|nullable',
-            'thumbnail'    => 'string|nullable',
-            'status'       => 'integer|nullable',
+            'media_id'       => 'required|integer',
+            'title'          => 'required|string',
+            'content'        => 'string|nullable',
+            'article_link'   => 'url|nullable',
+            'customer'       => 'string|nullable',
+            'file_list'      => 'array|nullable',
+            'remark'         => 'string|nullable',
+            'source'         => 'string|nullable',
+            'channel_id'     => 'integer|nullable',
+            'is_collaborate' => 'required|integer',
+            'thumbnail'      => 'string|nullable',
+            'status'         => 'integer|nullable',
         ];
     }
 }

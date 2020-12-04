@@ -18,6 +18,7 @@ class CreateManuscriptsTable extends Migration
             $table->bigInteger('media_id')->index();
             $table->integer('channel_id')->default(0);
             $table->integer('member_id')->default(0);
+            $table->tinyInteger('is_collaborate');
             $table->string('title')->nullable()->index();
             $table->mediumText('content')->nullable();
             $table->string('article_link')->nullable();
