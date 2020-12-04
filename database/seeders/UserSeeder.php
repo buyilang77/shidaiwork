@@ -74,14 +74,14 @@ class UserSeeder extends Seeder
             [
                 'username' => 'zhangwen',
                 'name'     => '张文',
-                'type'     => 2,
+                'type'     => 3,
                 'roles'    => "[5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],
             [
                 'username' => 'liujia',
                 'name'     => '刘佳',
-                'type'     => 2,
+                'type'     => 3,
                 'roles'    => "[5]",
                 'password' => '$2y$10$frXtNd9lFaVSmWOYZ36GbO5IP47v8tGO3X3nvYfqk/jmBY5ElF/8W',
             ],

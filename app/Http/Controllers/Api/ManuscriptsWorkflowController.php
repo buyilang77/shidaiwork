@@ -44,6 +44,7 @@ class ManuscriptsWorkflowController extends Controller
             case User::TEXT_EDITOR:
                 $data['text_editor_id'] = $user_id;
                 break;
+            case User::ADVANCED_EDITOR:
             case User::WRITING_EDITOR:
                 $data['writing_editor_id'] = $user_id;
                 break;
